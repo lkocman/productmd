@@ -81,6 +81,7 @@ VARIANT_TYPES = [
     "optional",
     "addon",
     "layered-product",
+    "module",
 ]
 
 
