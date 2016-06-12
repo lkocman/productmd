@@ -729,6 +729,7 @@ class Variant(VariantBase):
         self.variants = {}      #: (*dict*) -- child variants
         self.parent = None      #: (:class:`.Variant` or *None*) -- parent variant
         self.dependencies = []  #: (*set(<str>)*) - set of variant.uids
+        self.version = None
 
         self.paths = VariantPaths(self)         #: (:class:`VariantPaths`) -- path mappings for a variant
         # for self.type == "layered-product"
@@ -789,8 +790,9 @@ class Variant(VariantBase):
         self.name = data["name"]
         self.type = data["type"]
         self.arches = set(data["arches"])
-        # hmmm perhaps some sanity checking would be useful 
+        # hmmm perhaps some sanity checking would be useful
         self.dependencies = [{'id': dep['id'], 'version': dep['version']} for dep in data["dependencies"]]
+        self.version = data["version"]
 
         if self.type == "layered-product":
             self.release.deserialize(data)
@@ -819,6 +821,7 @@ class Variant(VariantBase):
         dump["type"] = self.type
         dump["arches"] = sorted(self.arches)
         dump["dependencies"] = sorted(self.dependencies)
+        dump["version"] = self.version
 
         if self.type == "layered-product":
             self.release.is_layered = True
